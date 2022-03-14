@@ -1,0 +1,56 @@
+/*-----------------------*\
+    $Variables
+\*-----------------------*/
+:root {
+    /* Color palette */
+    --color-first: ;
+    --color-second: ;
+    --color-amber: ;
+    --color-bg: ;
+    --color-text: ;
+    
+    /* filters color */
+    /* App conversor: https://codepen.io/sosuke/pen/Pjoqqp?editors=0010 */
+    --color-amber-filter:;
+    --color-second-filter:;
+}
+:root {
+     /* Typography */
+     --font-title: 'Rowdies', sans-serif;
+     --font-content: 'Rubik', sans-serif;
+     --h1-font-size: 2rem;
+     --h2-font-size: 1.5rem;
+     --h3-font-size: 1.2rem;
+     --body-font-size: 1rem;
+     --small-font-size: .8rem;
+}
+:root {
+    /* Layout */
+    --header-height: 3rem;
+    --max-width: 1024px;
+    --gutter: 1em;
+    --border-radius: 16px;
+}
+:root {
+    --opacity: .95;
+
+    /* Shadow */
+    --shadow-opacity: .3em;
+    --shadow-move-y: 0;
+    --shadow-move-x: .2em;
+    --shadow-blur: calc(var(--shadow-move-x));
+    --box-shadow: rgba(0, 0, 0, var(--shadow-opacity)) var(--shadow-move-x) var(--shadow-move-y) var(--shadow-blur);
+}
+
+@media screen and (min-width: 540px) {}
+@media screen and (min-width: 768px) {
+    :root {
+        --h1-font-size: 2.4rem;
+        --h2-font-size: 2rem;
+        --h3-font-size: 1.5rem;
+        --body-font-size: 1.1rem;
+        --small-font-size: .9rem;
+    }
+}
+@media screen and (min-width: 960px) {}
+@media screen and (min-width: 1024px) {}
