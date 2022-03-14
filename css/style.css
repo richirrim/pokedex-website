@@ -3,11 +3,11 @@
 \*-----------------------*/
 :root {
     /* Color palette */
-    --color-first: ;
-    --color-second: ;
-    --color-amber: ;
-    --color-bg: ;
-    --color-text: ;
+    --color-first: #f44336;
+    --color-second: #c62828;
+    --color-amber: #ffc400;
+    --color-bg: #ffebee;
+    --color-text: #263238;
     
     /* filters color */
     /* App conversor: https://codepen.io/sosuke/pen/Pjoqqp?editors=0010 */
