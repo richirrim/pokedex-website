@@ -170,6 +170,20 @@ h3 { font-size: var(--h3-font-size); }
 }
 
 
+/*---------------------------------------*\
+    $Grid
+\*---------------------------------------*/
+.grid {
+    --columns-number: 2;
+    --space: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space);
+}
+    .grid__item {
+        flex-basis: calc(100% / var(--columns-number) - var(--gutter));
+    }
+
 
 /*----------------------------------------------------------------------*\
     $Media querys
