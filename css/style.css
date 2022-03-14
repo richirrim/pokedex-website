@@ -1,6 +1,6 @@
-/*-----------------------*\
+/*---------------------------------------*\
     $Variables
-\*-----------------------*/
+\*---------------------------------------*/
 :root {
     /* Color palette */
     --color-first: #f44336;
@@ -83,9 +83,9 @@ h2 { font-size: var(--h2-font-size); }
 h3 { font-size: var(--h3-font-size); }
 
 
-/*-----------------------*\
+/*---------------------------------------*\
     $icons
-\*-----------------------*/
+\*---------------------------------------*/
 [class*=icon-]::before {
     --width: 1.5em;
     --color: invert(16%) sepia(17%) saturate(743%) hue-rotate(155deg) brightness(92%) contrast(89%);
@@ -103,9 +103,9 @@ h3 { font-size: var(--h3-font-size); }
 } */
 
 
-/*-----------------------*\
+/*---------------------------------------*\
     $Layout
-\*-----------------------*/
+\*---------------------------------------*/
 .l-container {
     margin-left: auto;
     margin-right: auto;
@@ -125,9 +125,10 @@ h3 { font-size: var(--h3-font-size); }
 }
 .center-content { text-align: center; }
 
-/*-----------------------*\
+
+/*---------------------------------------*\
     $Button
-\*-----------------------*/
+\*---------------------------------------*/
 .button {
     display: inline-block;
     border-radius: .99em;
@@ -135,7 +136,6 @@ h3 { font-size: var(--h3-font-size); }
     color: #fff;
     background-color: var(--color-amber);
     text-align: center;
-    text-decoration: none;
     font-weight: 500;
     cursor: pointer;
     box-shadow: rgba(0,0,0, .1) 0 .3em .3em;
@@ -145,7 +145,30 @@ h3 { font-size: var(--h3-font-size); }
     .button:active { 
         transform: scale(.96); 
     }
- 
+
+
+/*---------------------------------------*\
+    $Tag
+\*---------------------------------------*/
+.tag {
+    display: inline-block;
+    border-radius: .99em;
+    padding: .4em 1em .4em;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+/*---------------------------------------*\
+    $Card
+\*---------------------------------------*/
+.card {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    padding: var(--gutter);
+    box-shadow: var(--box-shadow);
+}
+
 
 
 /*----------------------------------------------------------------------*\
