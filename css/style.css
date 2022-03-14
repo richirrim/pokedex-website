@@ -103,6 +103,29 @@ h3 { font-size: var(--h3-font-size); }
 } */
 
 
+/*-----------------------*\
+    $Layout
+\*-----------------------*/
+.l-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: var(--max-width);
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.l-section {
+    margin-bottom: 6rem;
+}
+.center-block {
+    margin-left: auto;
+    margin-right: auto;
+}
+.center-content { text-align: center; }
+
+
 /*----------------------------------------------------------------------*\
     $Media querys
 \*----------------------------------------------------------------------*/
