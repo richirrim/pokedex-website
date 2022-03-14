@@ -83,6 +83,25 @@ h2 { font-size: var(--h2-font-size); }
 h3 { font-size: var(--h3-font-size); }
 
 
+/*-----------------------*\
+    $icons
+\*-----------------------*/
+[class*=icon-]::before {
+    --width: 1.5em;
+    --color: invert(16%) sepia(17%) saturate(743%) hue-rotate(155deg) brightness(92%) contrast(89%);
+    content: "";
+    display: inline-block;
+    margin-right: .4em;
+    background-repeat: no-repeat;
+    width: var(--width);
+    height: var(--width);
+}
+
+/* .icon-name::before {
+    content: "";
+    background-image: url("../icons/icon-name.svg");
+} */
+
 
 /*----------------------------------------------------------------------*\
     $Media querys
