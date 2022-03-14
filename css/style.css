@@ -125,6 +125,28 @@ h3 { font-size: var(--h3-font-size); }
 }
 .center-content { text-align: center; }
 
+/*-----------------------*\
+    $Button
+\*-----------------------*/
+.button {
+    display: inline-block;
+    border-radius: .99em;
+    padding: .5em 1.5em .5em;
+    color: #fff;
+    background-color: var(--color-amber);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: rgba(0,0,0, .1) 0 .3em .3em;
+    transition: all .3s;
+    cursor: pointer;
+}
+    .button:active { 
+        transform: scale(.96); 
+    }
+ 
+
 
 /*----------------------------------------------------------------------*\
     $Media querys
