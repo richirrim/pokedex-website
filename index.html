@@ -31,34 +31,37 @@
             </div>
         </div>
     </header>
-    <main>
-        <h1>Lista de pokemon</h1>
-        <!--------------------- $List cards ------------------------>
-
-        <section>
-            <article>
-                <div>
-                    <span>000<span>1</span></span>
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="">
-                    <h2>Bulbasor</h2>
+    <main class="main">
+        <div class="l-container">
+            <h1 class="main__title">Lista de pokemon</h1>
+            <!--------------------- $List cards ------------------------>
+            <section class="pokemon-list">
+                <div class="grid">
+                    <article class="grid__item  card  card-pokem">
+                        <div class="card-pokemon__content">
+                            <span class="card-pokemon__id">#00<span>1</span></span>
+                            <img class="card-pokemon__image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="">
+                            <h2 class="card-pokemon__name">Bulbasor</h2>
+                        </div>
+                        <div class="card-pokemon__tags">
+                            <span class="tag">Grass</span>
+                            <span class="tag">Poison</span>
+                        </div>
+                    </article>
+                    <article class="grid__item  card  card-pokem">
+                        <div class="card-pokemon__content">
+                            <span class="card-pokemon__id">#00<span>2</span></span>
+                            <img class="card-pokemon__image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/6.svg" alt="">
+                            <h2 class="card-pokemon__name">Charizard</h2>
+                        </div>
+                        <div class="card-pokemon__tags">
+                            <span class="tag">Fire</span>
+                            <span class="tag">Flying</span>
+                        </div>
+                    </article>
                 </div>
-                <div>
-                    <span>Grass</span>
-                    <span>Poison</span>
-                </div>
-            </article>
-            <article>
-                <div>
-                    <span>000<span>2</span></span>
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/6.svg" alt="">
-                    <h2>Charizard</h2>
-                </div>
-                <div>
-                    <span>Fire</span>
-                    <span>Flying</span>
-                </div>
-            </article>
-        </section>
+            </section>
+        </div>
     </main>
     <script src="./script.js"></script>
 </body>
