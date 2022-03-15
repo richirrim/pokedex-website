@@ -35,10 +35,10 @@
     --opacity: .95;
 
     /* Shadow */
-    --shadow-opacity: .2;
-    --shadow-move-y: .1em;
-    --shadow-move-x: .3em;
-    --shadow-blur: calc(var(--shadow-move-x));
+    --shadow-opacity: .1;
+    --shadow-move-y: .3em;
+    --shadow-move-x: .05em;
+    --shadow-blur: calc(var(--shadow-move-y));
     --box-shadow: rgba(0, 0, 0, var(--shadow-opacity)) var(--shadow-move-x) var(--shadow-move-y) var(--shadow-blur);
 }
 
@@ -125,7 +125,7 @@ h3 { font-size: var(--h3-font-size); }
     flex-wrap: wrap;
 }
 .l-section {
-    margin-bottom: 6rem;
+    margin-bottom: 2rem;
 }
 .center-block {
     margin-left: auto;
@@ -186,7 +186,7 @@ h3 { font-size: var(--h3-font-size); }
     --space: 1rem;
     display: grid;
     grid-template-columns: repeat(var(--columns-number), 1fr);
-    gap: var(--space);
+    grid-gap: var(--space);
 }
 
 
@@ -204,7 +204,6 @@ h3 { font-size: var(--h3-font-size); }
     box-shadow: var(--box-shadow);
 
 }
-    /* .main-header * { outline:  1px solid; } */
     .main-header div {
         justify-content: center;
     }
@@ -248,13 +247,15 @@ h3 { font-size: var(--h3-font-size); }
         outline: none;
     }
 
+
 /*---------------------------------------*\
     $Main
 \*---------------------------------------*/
-    .main__title {
-        margin-right: auto;
-        margin-left: auto;
+.main {}    
+    .main > div {
+        flex-direction: column;
     }
+
 
 /*---------------------------------------*\
     $Pokem list
@@ -262,13 +263,19 @@ h3 { font-size: var(--h3-font-size); }
 .pokemon-list {
     text-align: center;
 }
-    /* .pokemon-list * { outline:  1px solid; } */
 
     
 /*---------------------------------------*\
     $Pokemon card
 \*---------------------------------------*/
-.card-pokemon {}
+.card-pokemon {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+    .grid {
+        --columns-number: 1;
+    }
     .card-pokemon__id {
         opacity: .8;
     }
@@ -276,9 +283,22 @@ h3 { font-size: var(--h3-font-size); }
         position: relative;
         margin-bottom: -.85rem;
     }
+    .card-pokemon__name {
+        margin-bottom: 0;
+    }
     .card-pokemon__tags {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+    }
+    .card-pokemon .tag:nth-child(2) {
+        margin-top: .5em;
+    }
+    .card-pokemon__container-image {
+        --width: 4rem;
+        display: flex;
+        width: 100%;
+        height: var(--width);
     }
 
 
