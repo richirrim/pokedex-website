@@ -1,3 +1,8 @@
+/**
+ * getPokemonLimit()
+ * 
+ * Obtiene un número limitado de Pokemon.
+ */
 const getPokemonLimit = async function() {
     const LIMIT = 20
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${LIMIT}`)
@@ -15,6 +20,12 @@ const getPokemonLimit = async function() {
 
 }
 
+/**
+ * getPokemonList()
+ *
+ * Obtiene la data de cada pokemon
+ * devuelto por la función getPokemonLimit()
+ */
 const getPokemonList = async function() {
     let pokemonList = []
     let pokemonListLimit = await getPokemonLimit()
@@ -27,6 +38,12 @@ const getPokemonList = async function() {
     return pokemonList
 }
 
+/**
+ * renderUI()
+ *  
+ * Pinta cada compoonente card con info del 
+ * pokemon en el layout.
+ */
 const renderUI = async function () {
     let templateCard = ``
     const pokemonListFragment = document.createDocumentFragment()
