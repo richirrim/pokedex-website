@@ -18,17 +18,23 @@
 </head>
 <body>
     <!--------------------- $Header ------------------------>
-    <header>
-        <img src="./images/banner-image.jpg" alt="Image hero de fondo.">
-        <div>
-            <img src="./images/logo-pokedex-white.png" alt="Logo principal del sitio web.">
-            <!--------------------- $Search ------------------------>
-            <input type="search" name="input-search">
+    <header class="main-header  l-section">
+        <img class="main-header__hero-image" src="./images/banner-image.jpg" alt="Image hero de fondo.">
+        <div class="l-container ">
+            <div class="main-header__content">
+                <img class="main-logo" src="./images/logo-pokedex-white.png" alt="Logo principal del sitio web.">
+                <!--------------------- $Search ------------------------>
+                <div class="main-header__input">
+                    <i class="icon-pokeball"></i>
+                    <input class="main-header__input-search" type="search" name="input-search">
+                </div>
+            </div>
         </div>
     </header>
     <main>
         <h1>Lista de pokemon</h1>
         <!--------------------- $List cards ------------------------>
+
         <section>
             <article>
                 <div>
