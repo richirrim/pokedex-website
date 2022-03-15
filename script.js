@@ -3,7 +3,7 @@
  * 
  * Obtiene un número limitado de Pokemon.
  */
-const getPokemonLimit = async function() {
+const getPokemonLimit = async function () {
     const LIMIT = 20
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${LIMIT}`)
     let result = await response.json()
@@ -26,7 +26,7 @@ const getPokemonLimit = async function() {
  * Obtiene la data de cada pokemon
  * devuelto por la función getPokemonLimit()
  */
-const getPokemonList = async function() {
+const getPokemonList = async function () {
     let pokemonList = []
     let pokemonListLimit = await getPokemonLimit()
     
@@ -55,9 +55,10 @@ const renderUI = async function () {
     for (let pokemon of pokemonList) {
         const articleEl = document.createElement("article")
         articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
+        
         articleEl.innerHTML = `
             <div class="card-pokemon__content">
-                <span class="card-pokemon__id">#00<span>${pokemon.id}</span></span>
+                <span class="icon-pokeball card-pokemon__id">#00<span>${pokemon.id}</span></span>
                 <div class="card-pokemon__container-image">
                     <img class="card-pokemon__image" src="${pokemon.sprites.other.dream_world.front_default}" alt="">
                 </div>
@@ -68,7 +69,6 @@ const renderUI = async function () {
                 ${pokemon.types.length === 2 ? `<span class="tag">${pokemon.types[1].type.name}</span>` : ''}
             </div>
         `
-        console.log(pokemon)
         pokemonListFragment.append(articleEl)
     }
     pokemonListEl.append(pokemonListFragment)

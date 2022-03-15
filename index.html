@@ -20,14 +20,20 @@
     <!--------------------- $Header ------------------------>
     <header class="main-header  l-section">
         <img class="main-header__hero-image" src="./images/banner-image.jpg" alt="Image hero de fondo.">
-        <div class="l-container ">
+        <div class="l-container">
             <div class="main-header__content">
                 <img class="main-logo" src="./images/logo-pokedex-white.png" alt="Logo principal del sitio web.">
                 <!--------------------- $Search ------------------------>
-                <div class="main-header__input">
-                    <i class="icon-pokeball"></i>
-                    <input class="main-header__input-search" type="search" name="input-search">
-                </div>
+                <form class="form" action="">
+                    <div class="form__input">
+                        <i class="icon-pokeball"></i>
+                        <input class="form__search" type="search" name="input-search" required>
+                    </div>
+                    <div class="form__input  button">
+                        <i class="icon-search"></i>
+                        <input class="form__submit" type="submit" class="icon-search" value="">
+                    </div>
+                </form>
             </div>
         </div>
     </header>

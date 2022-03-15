@@ -105,6 +105,10 @@ h3 { font-size: var(--h3-font-size); }
     content: "";
     background-image: url("../icons/icon-pokeball.svg");
 }
+.icon-search::before {
+    content: "";
+    background-image: url("../icons/icon-search.svg");
+}
 /* .icon-name::before {
     content: "";
     background-image: url("../icons/icon-name.svg");
@@ -164,6 +168,8 @@ h3 { font-size: var(--h3-font-size); }
     padding: .4em 1em .4em;
     font-weight: 400;
     text-align: center;
+    background-color: var(--color-amber); 
+    color: var(--color-second)
 }
 
 
@@ -226,25 +232,59 @@ h3 { font-size: var(--h3-font-size); }
     .main-logo {
         margin-bottom: var(--gutter);
     }
-    .main-header__input {
+
+
+/*---------------------------------------*\
+    $Form
+\*---------------------------------------*/
+.form {
+    display: flex;
+}
+    .form input {
+        border: none;
+        background-color: transparent;
+        width: 100%;
+    }
+    .form__input {
         border-radius: 50em;
+        padding: .5em;
         background-color: #fff;
-        padding-left: .3em;
-        padding-right: .3em;
         width: 100%;
         display: flex;
         justify-content: flex-start;
     }
-    .main-header__input-search {
-        border: none;
-        padding-top: .5em;
-        padding-bottom: .5em;
-        color: var(--color-second);
-        background-color: transparent;
-        width: 100%;
+    .form__input:not(:last-child) {
+        margin-right: .4em;
     }
-    .main-header__input-search:focus {
+    .form__search {
+        color: var(--color-second);
+    }
+    .form__search:focus {
         outline: none;
+    }
+    .form__input:last-child {
+        position: relative;
+    }
+    .form__input.button {
+        position: relative;
+        background-color: transparent;
+        box-shadow: initial;
+        width: 2em;
+        cursor: none;
+    }
+    .form__input [class*="icon-"]::before {
+        margin-right: 0;
+    }
+    .form__submit {
+        display: initial;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer; 
     }
 
 
@@ -276,8 +316,13 @@ h3 { font-size: var(--h3-font-size); }
     .grid {
         --columns-number: 1;
     }
+    .card-pokemon__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center
+    }
     .card-pokemon__id {
-        opacity: .8;
+        opacity: .6;
     }
     .card-pokemon__image {
         position: relative;
