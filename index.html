@@ -24,16 +24,18 @@
             <div class="main-header__content">
                 <img class="main-logo" src="./images/logo-pokedex-white.png" alt="Logo principal del sitio web.">
                 <!--------------------- $Search ------------------------>
-                <form class="form" action="">
+                <form id="js-formSearch" class="form" action="">
                     <div class="form__input">
                         <i class="icon-pokeball"></i>
-                        <input class="form__search" type="search" name="input-search" required>
+                        <input id="js-inputSearch" class="form__search" type="search" name="input-search" placeholder="Ingresa nombre o Id" required>
                     </div>
                     <div class="form__input  button">
                         <i class="icon-search"></i>
                         <input class="form__submit" type="submit" class="icon-search" value="">
                     </div>
                 </form>
+                <div id="js-pokemonContainer" class="pokemon">
+                </div>
             </div>
         </div>
     </header>
