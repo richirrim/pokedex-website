@@ -139,6 +139,16 @@ h3 { font-size: var(--h3-font-size); }
 
 
 /*---------------------------------------*\
+    $Messages
+\*---------------------------------------*/
+.showMessageError {
+    font-size: 1.5rem;
+    color: var(--color-amber);
+    font-weight: 600;
+}
+
+
+/*---------------------------------------*\
     $Button
 \*---------------------------------------*/
 .button {
@@ -239,6 +249,7 @@ h3 { font-size: var(--h3-font-size); }
     }
     .main-header .pokemon {
         width: 100%;
+        text-align: center;
     }
 
 

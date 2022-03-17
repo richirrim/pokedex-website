@@ -1,6 +1,24 @@
 /**
  * getPokemonLimit()
  * 
+ * @param {String} id
+ * @param {String} message
+ */
+const renderMessage = function (id, message) {
+    const containerEl = document.getElementById(id)
+    const spanEl = document.createElement('span')
+    if (!containerEl) return
+
+    containerEl.innerHTML = ''
+    spanEl.setAttribute('class', 'showMessageError')
+    spanEl.textContent = message
+    containerEl.append(spanEl)
+}
+
+
+/**
+ * getPokemonLimit()
+ * 
  * Obtiene un número limitado de Pokemon.
  */
 const getPokemonLimit = async function () {
@@ -30,6 +48,15 @@ const getPokemonLimit = async function () {
  const getPokemon = async function (id) {
     if (!id) return
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+
+    if (!response.ok) {
+        renderMessage(
+            'js-pokemonContainer', 
+            'No se encontro el pokemon que estabas buscando😢.'
+        )
+        return
+    }
+
     const result = await response.json()
     return result
 }
@@ -63,9 +90,8 @@ const getPokemonList = async function () {
  */
  const createTemplateCard = function ({id, imageType = 'svg', imageSprites, name, types}) {
     let image
-    console.log(imageType)
     if (imageType === 'svg') {
-        // Apartir del 8888888 no hay imagenes svg del pokemon.
+        // Apartir del 650 no hay imagenes svg del pokemon.
         // Por ende, devuelve svg si existe y, si no, la version 'png'.
         image = imageSprites.other.dream_world.front_default ? imageSprites.other.dream_world.front_default : imageSprites.front_default
     }
@@ -134,6 +160,7 @@ const renderPokemon = async function (pokemon) {
     const divEl = document.createElement("div")
     divEl.setAttribute('class', 'card-pokemon  card-pokemon--vertical')
     pokemonContainerEl.innerHTML = ''
+    
     const cardPokemon = await createTemplateCard({
         id: pokemon.id,
         imageSprites: pokemon.sprites,
@@ -156,8 +183,14 @@ const getDataForm = function () {
     
     formEl.addEventListener('submit', async function(e) {
         e.preventDefault()
-        const id = document.getElementById('js-inputSearch').value.trim()
-        const pokemon = await getPokemon(id)
+        const idOrName = document.getElementById('js-inputSearch').value.toLowerCase().trim()
+        const pokemon = await getPokemon(idOrName)
+
+        if (!pokemon && idOrName) {
+            formEl.reset()
+            return
+        }
+
         renderPokemon(pokemon)
         formEl.reset()
     })
