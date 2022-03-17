@@ -131,6 +131,7 @@ const renderPokemonList = async function () {
     const pokemonList = await getPokemonList()
 
     if (!pokemonList) return
+    
 
     for (let pokemon of pokemonList) {
         const articleEl = document.createElement("article")
@@ -196,6 +197,19 @@ const getDataForm = function () {
     })
 }
 
+
+/**
+ * renderRandomPokemon()
+ *  
+ */
+const renderRandomPokemon = async function () {
+    const id = Math.ceil(Math.random()*898)
+    const pokemon = await getPokemon(id)
+    renderPokemon(pokemon)
+}
+
+
 // nota: la api solo tiene 898 pokemon.
 getDataForm()
 document.addEventListener('DOMContentLoaded', renderPokemonList)
+document.addEventListener('DOMContentLoaded', renderRandomPokemon)

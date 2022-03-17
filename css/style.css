@@ -11,7 +11,7 @@
     
     /* filters color */
     /* App conversor: https://codepen.io/sosuke/pen/Pjoqqp?editors=0010 */
-    --color-amber-filter:;
+    --color-amber-filter: invert(79%) sepia(21%) saturate(1978%) hue-rotate(356deg) brightness(97%) contrast(108%);
     --color-second-filter:;
 }
 :root {
@@ -108,6 +108,10 @@ h3 { font-size: var(--h3-font-size); }
 .icon-search::before {
     content: "";
     background-image: url("../icons/icon-search.svg");
+}
+.icon-random::before {
+    content: "";
+    background-image: url("../icons/icon-random.svg");
 }
 /* .icon-name::before {
     content: "";
@@ -219,14 +223,14 @@ h3 { font-size: var(--h3-font-size); }
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
     background-color: var(--color-first);
-    min-height: 40vh;
+    min-height: 60vh;
     box-shadow: var(--box-shadow);
     display: flex;
 
 }   
     .main-header > div {
-        justify-content: center;
         margin: auto;
+        justify-content: center;
     }
     .main-header__hero-image {
         position: absolute;
@@ -240,9 +244,18 @@ h3 { font-size: var(--h3-font-size); }
     }
     .main-header__content {
         position: relative;
-        display: flex;
         width: 95%;
+        display: flex;
         flex-direction: column;
+    }
+    .main-header__content > div:first-child {
+        margin-bottom: 1em;
+    }
+    .main-header__content  [class*='icon-random'] {
+        justify-content: center;
+    }
+    .main-header__content [class*='icon-random']::before {
+        filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(80deg) brightness(102%) contrast(104%);
     }
     .main-logo {
         margin-bottom: var(--gutter);
@@ -251,6 +264,14 @@ h3 { font-size: var(--h3-font-size); }
         width: 100%;
         text-align: center;
     }
+    .main-header__link {
+        color: var(--color-bg);
+        text-decoration: underline;
+        transition: all .3s;
+    }
+    .main-header__link:hover {
+        color: var(--color-amber);
+    }
 
 
 /*---------------------------------------*\
@@ -258,7 +279,7 @@ h3 { font-size: var(--h3-font-size); }
 \*---------------------------------------*/
 .form {
     display: flex;
-    margin-bottom: var(--gutter);
+    margin-bottom: calc(var(--gutter) / 2);
 }
     .form input {
         border: none;
