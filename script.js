@@ -127,7 +127,7 @@ const renderPokemon = async function (pokemon) {
     const pokemonContainerEl = document.getElementById('js-pokemonContainer')
     if (!pokemonContainerEl) return
     const divEl = document.createElement("div")
-    divEl.setAttribute('class', 'card-pokemon')
+    divEl.setAttribute('class', 'card-pokemon  card-pokemon--vertical')
     pokemonContainerEl.innerHTML = ''
     const cardPokemon = await createTemplateCard({
         id: pokemon.id,

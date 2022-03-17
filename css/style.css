@@ -200,9 +200,12 @@ h3 { font-size: var(--h3-font-size); }
     $Main Header
 \*---------------------------------------*/
 .main-header {
+    --gutter: 2em;
     --shadow-move-x: 4em;
     --shadow-move-y: 4em;
     position: relative;
+    padding-top: var(--gutter);
+    padding-bottom: var(--gutter);
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
     background-color: var(--color-first);
@@ -244,7 +247,7 @@ h3 { font-size: var(--h3-font-size); }
 \*---------------------------------------*/
 .form {
     display: flex;
-    margin-bottom: calc(var(--gutter) * 2);
+    margin-bottom: var(--gutter);
 }
     .form input {
         border: none;
@@ -353,8 +356,22 @@ h3 { font-size: var(--h3-font-size); }
         width: 100%;
         height: var(--width);
     }
-
-
+    .card-pokemon.card-pokemon--vertical {
+        flex-direction: column;
+    }
+    .card-pokemon.card-pokemon--vertical .card-pokemon__container-image {
+        --width: 10rem;
+    }
+    .card-pokemon.card-pokemon--vertical .card-pokemon__name {
+        margin-bottom:  .5em;
+    }
+    .card-pokemon.card-pokemon--vertical .card-pokemon__tags {
+        flex-direction: initial;
+    }
+    .card-pokemon.card-pokemon--vertical .tag:nth-child(2) {
+        margin-top: 0;
+        margin-left: calc(var(--gutter) / 2);
+    }
 /*----------------------------------------------------------------------*\
     $Media querys
 \*----------------------------------------------------------------------*/
