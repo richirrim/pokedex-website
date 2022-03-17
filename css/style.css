@@ -327,6 +327,9 @@ h3 { font-size: var(--h3-font-size); }
 .pokemon-list {
     text-align: center;
 }
+    .pokemon-list .grid {
+        --columns-number: 1;
+    }
 
     
 /*---------------------------------------*\
@@ -337,9 +340,6 @@ h3 { font-size: var(--h3-font-size); }
     display: flex;
     justify-content: space-between;
 }
-    .grid {
-        --columns-number: 1;
-    }
     .card-pokemon__content {
         display: flex;
         flex-direction: column;
@@ -366,14 +366,14 @@ h3 { font-size: var(--h3-font-size); }
     .card-pokemon__container-image {
         --width: 4rem;
         display: flex;
-        width: 100%;
         height: var(--width);
     }
     .card-pokemon.card-pokemon--vertical {
         flex-direction: column;
     }
     .card-pokemon.card-pokemon--vertical .card-pokemon__container-image {
-        --width: 10rem;
+        --width: 12rem;
+        width: var(--width);;
     }
     .card-pokemon.card-pokemon--vertical .card-pokemon__name {
         margin-bottom:  .5em;
@@ -385,10 +385,20 @@ h3 { font-size: var(--h3-font-size); }
         margin-top: 0;
         margin-left: calc(var(--gutter) / 2);
     }
+
+
 /*----------------------------------------------------------------------*\
     $Media querys
 \*----------------------------------------------------------------------*/
-@media screen and (min-width: 540px) {}
+@media screen and (min-width: 540px) {
+    /*---------------------------------------*\
+        $Pokem list
+    \*---------------------------------------*/
+    .pokemon-list {}
+        .pokemon-list .grid {
+            --columns-number: 2;
+        }
+}
 @media screen and (min-width: 768px) {
     :root {
         --h1-font-size: 2.4rem;
@@ -397,6 +407,54 @@ h3 { font-size: var(--h3-font-size); }
         --body-font-size: 1.1rem;
         --small-font-size: .9rem;
     }
+
+    /*---------------------------------------*\
+        $Main Header
+    \*---------------------------------------*/
+    .main-header__content {
+        flex-direction: row;
+        gap: var(--gutter);
+    }
+    .main-header__content > div:first-child {
+        display: flex;
+        justify-content:  center;
+        flex-direction: column;
+        flex-basis: 60%;
+    }
+    .main-header .form {
+        width: 100%;
+    }
+    .main-header .pokemon {
+        flex-basis: 40%;
+    }
+    .main-header__content .pokemon {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .main-header__content .showMessageError {
+        width: 80%;
+        text-align: right;
+    }
+    
+    
+    /*---------------------------------------*\
+        $Pokemon card
+    \*---------------------------------------*/
+    .card-pokemon__container-image {
+        --width: 5rem;
+    }
+    .card-pokemon.card-pokemon--vertical .card-pokemon__container-image {
+        --width: 14rem;
+    }
 }
-@media screen and (min-width: 960px) {}
+@media screen and (min-width: 960px) {
+    /*---------------------------------------*\
+    $Pokem list
+    \*---------------------------------------*/
+    .pokemon-list {}
+        .pokemon-list .grid {
+            --columns-number: 3;
+    }
+}
 @media screen and (min-width: 1024px) {}
