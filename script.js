@@ -63,7 +63,12 @@ const getPokemonList = async function () {
  */
  const createTemplateCard = function ({id, imageType = 'svg', imageSprites, name, types}) {
     let image
-    if (imageType === 'svg') image = imageSprites.other.dream_world.front_default
+    console.log(imageType)
+    if (imageType === 'svg') {
+        // Apartir del 8888888 no hay imagenes svg del pokemon.
+        // Por ende, devuelve svg si existe y, si no, la version 'png'.
+        image = imageSprites.other.dream_world.front_default ? imageSprites.other.dream_world.front_default : imageSprites.front_default
+    }
     else image = imageSprites.front_default
 
     const typeOne = types[0].type.name
@@ -158,6 +163,6 @@ const getDataForm = function () {
     })
 }
 
-
+// nota: la api solo tiene 898 pokemon.
 getDataForm()
 document.addEventListener('DOMContentLoaded', renderPokemonList)

@@ -255,6 +255,7 @@ h3 { font-size: var(--h3-font-size); }
         width: 100%;
     }
     .form__input {
+        --padding: .5em;
         border-radius: 50em;
         background-color: #fff;
         width: 100%;
@@ -262,13 +263,14 @@ h3 { font-size: var(--h3-font-size); }
         justify-content: center;
     }
     .form__input:first-child > i {
-        margin: .5em;
+        margin: var(--padding);
     }
     .form__input:not(:last-child) {
         margin-right: .4em;
     }
     .form__search {
         color: var(--color-second);
+        padding-right: var(--padding);
     }
     .form__search:focus {
         outline: none;
