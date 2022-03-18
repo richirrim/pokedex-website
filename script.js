@@ -60,14 +60,16 @@ const getPokemonList = async function () {
     types: [firstType, secondType]}) {
      // Apartir del 650 no hay imagenes svg del pokemon.
      // Por ende, devuelve svg si existe y, si no, la version 'png'.
-    // let [firstType1, secondType2] = types
     let image = imageSVG || imagePNG
     firstType = firstType.type.name
     secondType = secondType ? `<span class="tag">${secondType.type.name}</span>` : ''
+    
+    if (id < 10) id = `00${id}`
+    else if (id >= 10 && id < 100) id = `0${id}`
 
     let template = `
         <div class="card-pokemon__content">
-            <span class="icon-pokeball card-pokemon__id">#00<span>${id}</span></span>
+            <span class="icon-pokeball card-pokemon__id"><span>#${id}</span></span>
             <div class="card-pokemon__container-image">
                 <img class="card-pokemon__image" src="${image}" alt="">
             </div>
