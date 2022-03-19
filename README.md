@@ -1,5 +1,5 @@
 # Modulo JS - Mission Frontend
-## Practica: POKEDEX WEBSITE
+## Practica: Pokedex Website
 `#innovaccionvirtual` `#LaunchX`
 ## Acciones que se pueden hacer con  la Pokédex:
 - Lista un número limitado de items.
