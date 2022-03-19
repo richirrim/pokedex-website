@@ -1,4 +1,4 @@
-# Modulo CSS - Mission Frontend
+# Modulo JS - Mission Frontend
 ## Practica: POKEDEX WEBSITE
 `#innovaccionvirtual` `#LaunchX`
 ## Acciones que se pueden hacer con  la Pokédex:
