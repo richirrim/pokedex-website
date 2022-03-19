@@ -19,6 +19,7 @@ const TOTAL_AMOUNT_POKEMON = 898
         return
     } 
     const result = await response.json()
+    console.log(result)
     return result
 }
 
@@ -34,8 +35,9 @@ const getPokemonList = async function () {
     let pokemonList = []
     
     for (let i = 1; i <= QUANTITY_POKEMON; i++) {
-        const result = await fetchPokemon(i)
-        pokemonList.push(result)
+        const pokemon = await fetchPokemon(i)
+        pokemonList.push(pokemon)
+
     }
     return pokemonList
 }
@@ -156,7 +158,6 @@ const renderPokemonList = async function () {
 
     if (!pokemonList) return
     
-
     for (let pokemon of pokemonList) {
         const articleEl = document.createElement("article")
         articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
