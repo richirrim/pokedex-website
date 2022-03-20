@@ -3,7 +3,7 @@ const TOTAL_AMOUNT_POKEMON = 898
 
 
 /**
- * getPokemon()
+ * fetchPokemon()
  *
  * @param {Number} id
  *  Obtiene un unico elemento.
@@ -19,32 +19,45 @@ const TOTAL_AMOUNT_POKEMON = 898
         return
     } 
     const result = await response.json()
-    console.log(result)
     return result
 }
 
 
 /**
- * getPokemonList()
- *
- * Obtiene la data de cada pokemon
- * devuelto por la función getPokemonLimit()
+ * fetchListType()
+ *  @param {string} id
+ *  Devuelve un unico elemento.
  */
-const getPokemonList = async function () {
-    const QUANTITY_POKEMON = 15
-    let pokemonList = []
-    
-    for (let i = 1; i <= QUANTITY_POKEMON; i++) {
-        const pokemon = await fetchPokemon(i)
-        pokemonList.push(pokemon)
-
-    }
-    return pokemonList
+ const fetchType = async function (id) {
+    if (!id) return
+    const response = await fetch(`https://pokeapi.co/api/v2/type/${id}`)
+    const result = await response.json()
+    return result
 }
 
 
 /**
- * templateCard()
+ * fetchTypeList()
+ * Devuelve una lista de elementos.
+ */
+const fetchTypeList = async function () {
+    const NUMBER_OF_TOTAL_TYPES = 18
+    let typeList = []
+    
+    for (let i = 1; i <= NUMBER_OF_TOTAL_TYPES; i++) {
+        const result = await fetchType(i)
+        let pokemonType = {
+            type: result.name,
+            id: result.id
+        }
+        typeList.push(pokemonType)
+    }
+    return typeList
+}
+
+
+/**
+ * createTemplateCard()
  * @param {Number} id Recibe un número.
  * @param {String} name
  * @param {String} imageType Por defecto, usa 'svg' otra opción es 'png'.
@@ -62,6 +75,7 @@ const getPokemonList = async function () {
     types: [firstType, secondType]}) {
      // Apartir del 650 no hay imagenes svg del pokemon.
      // Por ende, devuelve svg si existe y, si no, la version 'png'.
+
     let image = imageSVG || imagePNG
     firstType = firstType.type.name
     secondType = secondType ? `<span class="tag">${secondType.type.name}</span>` : ''
@@ -98,6 +112,25 @@ const getPokemonList = async function () {
 
 
 /**
+ * getPokemonList()
+ *
+ * Obtiene la data de cada pokemon
+ * devuelto por la función getPokemonLimit()
+ */
+const getPokemonList = async function () {
+    const QUANTITY_POKEMON = 15
+    let pokemonList = []
+    
+    for (let i = 1; i <= QUANTITY_POKEMON; i++) {
+        const pokemon = await fetchPokemon(i)
+        pokemonList.push(pokemon)
+
+    }
+    return pokemonList
+}
+
+
+/**
  * getDataForm()
  *  
  */
@@ -125,7 +158,36 @@ const getPokemonList = async function () {
 
 
 /**
- * getPokemonLimit()
+ * getOptionFromSelect()
+ *  
+ */
+ const getOptionFromSelect = function (selectEl) {
+    const currentOptionEl = selectEl.options[selectEl.selectedIndex]
+    const id = currentOptionEl.value
+    return id
+}
+
+
+/**
+ * getSelect()
+ *  
+ */
+const getSelect  = function () {
+    const selectEl = document.getElementById('js-select')
+    if (!selectEl) return
+
+    selectEl.addEventListener('change', async function (e) {
+        e.preventDefault()
+        const id = getOptionFromSelect(e.target)
+        const pokemonListByType = await fetchType(id)
+        renderPokemonListByType(pokemonListByType)
+    })
+
+}
+
+
+/**
+ * renderMessage()
  * 
  * @param {String} id
  * @param {String} message
@@ -214,7 +276,57 @@ const renderRandomPokemon = function () {
 }
 
 
-getDataForm()
+/**
+ * renderPokemonListByType()
+ *  
+ */
+const renderPokemonListByType = async function ({ pokemon: pokemonList }) {
+    const pokemonListByTypeFragment = document.createDocumentFragment()
+    const pokemonListEl = document.querySelector('#js-pokemon-list .grid')
+    if (!pokemonListEl) return
+
+    for (let pokemon of pokemonList) {
+        const articleEl = document.createElement("article")
+        articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
+        
+        let {id, name, sprites, types} = await fetchPokemon(pokemon.pokemon.name)
+        const pokemonCard = await createTemplateCard({id, imageSprites: sprites, name, types})
+        
+        articleEl.innerHTML = pokemonCard
+        pokemonListByTypeFragment.append(articleEl)
+    }
+    pokemonListEl.innerHTML = ''
+    pokemonListEl.append(pokemonListByTypeFragment)
+}
+
+
+/**
+ * renderOptionElToSelect()
+ *  
+ */
+const renderOptionElToSelect = async function () {
+    let optionListFragment = document.createDocumentFragment()
+    let selectEl = document.getElementById('js-select')
+    let typeList = await fetchTypeList()
+    if (!selectEl) return
+    if (!typeList.length > 0 ) return
+    
+    for (let type of typeList) {
+        let optionEl = document.createElement('option')
+        optionEl.setAttribute('class', 'select__item')
+        optionEl.setAttribute('value', type.id)
+        optionEl.textContent = type.type
+        optionListFragment.append(optionEl)
+    }
+  
+    selectEl.append(optionListFragment)
+}
+
+
+renderOptionElToSelect()
 renderRandomPokemon()
+getDataForm()
+getSelect()
+
 document.addEventListener('DOMContentLoaded', renderPokemonList)
 document.addEventListener('DOMContentLoaded', randomPokemon)

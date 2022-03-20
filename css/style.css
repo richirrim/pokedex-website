@@ -343,6 +343,35 @@ h3 { font-size: var(--h3-font-size); }
 
 
 /*---------------------------------------*\
+    $Slect
+\*---------------------------------------*/
+.select {
+    margin-bottom: calc(var(--gutter) * 2);
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+    box-shadow: none;
+}   
+    .select__list {
+        width: 50%;
+        border: none;
+        border-radius: var(--border-radius);
+        padding: .4em;
+        background-color: #fff;
+    }
+    .select__list:focus {
+        outline: none;
+    }
+    .select__item {
+        background-color: #fff;
+        color: var(--color-first);
+        outline: none;
+    }
+      
+
+/*---------------------------------------*\
     $Pokem list
 \*---------------------------------------*/
 .pokemon-list {
