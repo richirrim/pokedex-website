@@ -141,16 +141,15 @@ const getPokemonList = async function () {
     formEl.addEventListener('submit', async function(e) {
         e.preventDefault()
         let pokemon
-        const idOrName = document.getElementById('js-inputSearch').value
+        const idOrName = document.getElementById('js-inputSearch').value.trim()
         if (!idOrName) return
 
-        pokemon = await fetchPokemon(idOrName)
+        pokemon = await fetchPokemon(idOrName.toLowerCase())
         if (!pokemon) {
             formEl.reset()
             return
         }
 
-        idOrName.toLowerCase().trim()
         renderPokemon(pokemon)
         formEl.reset()
     })
