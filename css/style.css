@@ -12,7 +12,7 @@
     /* filters color */
     /* App conversor: https://codepen.io/sosuke/pen/Pjoqqp?editors=0010 */
     --color-amber-filter: invert(79%) sepia(21%) saturate(1978%) hue-rotate(356deg) brightness(97%) contrast(108%);
-    /* --color-second-filter:; */
+    --color-white-filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(339deg) brightness(107%) contrast(101%);
 }
 :root {
      /* Typography */
@@ -113,6 +113,14 @@ h3 { font-size: var(--h3-font-size); }
     content: "";
     background-image: url("../icons/icon-random.svg");
 }
+.icon-left-arrow::before {
+    content: "";
+    background-image: url("../icons/icon-left-arrow.svg");
+}
+.icon-right-arrow::before {
+    content: "";
+    background-image: url("../icons/icon-right-arrow.svg");
+}
 /* .icon-name::before {
     content: "";
     background-image: url("../icons/icon-name.svg");
@@ -156,7 +164,7 @@ h3 { font-size: var(--h3-font-size); }
     $Button
 \*---------------------------------------*/
 .button {
-    display: inline-block;
+    display: inline-flex;
     border-radius: .99em;
     padding: .5em 1.5em .5em;
     color: #fff;
@@ -209,12 +217,28 @@ h3 { font-size: var(--h3-font-size); }
     grid-gap: var(--space);
 }
 
+
 /*---------------------------------------*\
     $Pagination
 \*---------------------------------------*/
-/* .pagination-nav {
+.pagination-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagination-nav [class*=icon-right-arrow]::before {
+    margin-left: .4em;
+    margin-right: 0;
+    order: 1;
+}
+.pagination-nav a:hover {
+    background-color: var(--color-second);
+}
+.pagination-nav a:hover::before {
+    filter: var(--color-white-filter);
+}
 
-} */
+
 /*---------------------------------------*\
     $Main Header
 \*---------------------------------------*/

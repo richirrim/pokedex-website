@@ -27,8 +27,8 @@ const createPagination = function (id, previous, next) {
   const paginationNavEl = document.getElementById(id) 
   if (!paginationNavEl) return
 
-  const prevLinkEl = previous ? `<a class="button  pagination-nav__prev" href="${previous}">◀️ Prev</a>` : ''
-  const nextLinkEl = next ? `<a class="button  pagination-nav__next" href="${next}">Next ▶️</a>` : ''
+  const prevLinkEl = previous ? `<a class="button  pagination-nav__prev  icon-left-arrow" href="${previous}">Prev</a>` : ''
+  const nextLinkEl = next ? `<a class="button  pagination-nav__next  icon-right-arrow" href="${next}">Next</a>` : ''
   paginationNavEl.innerHTML = `${prevLinkEl} ${nextLinkEl}`
 }
 
