@@ -12,7 +12,7 @@
     /* filters color */
     /* App conversor: https://codepen.io/sosuke/pen/Pjoqqp?editors=0010 */
     --color-amber-filter: invert(79%) sepia(21%) saturate(1978%) hue-rotate(356deg) brightness(97%) contrast(108%);
-    --color-second-filter:;
+    /* --color-second-filter:; */
 }
 :root {
      /* Typography */
@@ -209,7 +209,12 @@ h3 { font-size: var(--h3-font-size); }
     grid-gap: var(--space);
 }
 
+/*---------------------------------------*\
+    $Pagination
+\*---------------------------------------*/
+/* .pagination-nav {
 
+} */
 /*---------------------------------------*\
     $Main Header
 \*---------------------------------------*/
@@ -336,7 +341,7 @@ h3 { font-size: var(--h3-font-size); }
 /*---------------------------------------*\
     $Main
 \*---------------------------------------*/
-.main {}    
+/* .main {}    */
     .main > div {
         flex-direction: column;
     }
@@ -444,7 +449,7 @@ h3 { font-size: var(--h3-font-size); }
     /*---------------------------------------*\
         $Pokem list
     \*---------------------------------------*/
-    .pokemon-list {}
+    /* .pokemon-list {} */
         .pokemon-list .grid {
             --columns-number: 2;
         }
@@ -502,7 +507,7 @@ h3 { font-size: var(--h3-font-size); }
     /*---------------------------------------*\
     $Pokem list
     \*---------------------------------------*/
-    .pokemon-list {}
+    /* .pokemon-list {} */
         .pokemon-list .grid {
             --columns-number: 3;
     }
