@@ -1,5 +1,4 @@
-// La api solo tiene 1126 pokemon.
-const TOTAL_AMOUNT_POKEMON = 1126
+const TOTAL_POKEMON_COUNT = 1025
 const URL_POKEMON_LIMIT = 'https://pokeapi.co/api/v2/pokemon?limit=12'
 
 
@@ -14,7 +13,6 @@ const fetchPokemonWithLimit = async function (url) {
     if (!response.ok) throw { status: response.status, statusText: response.statusText }
     const json = await response.json()
     createPagination('js-pagination', json.previous, json.next) 
-
     return json
   } catch (err) {
     console.log(err)
@@ -37,20 +35,36 @@ const createPagination = function (id, previous, next) {
  * fetchPokemon()
  *
  * @param {Number} id
- *  Obtiene un unico elemento.
+ * 
  */
-const fetchPokemon = async function (id) {
-    if (!id) return
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    if (!response.ok) {
-        renderMessage(
+const fetchPokemon = async function fetchPokemon(id) {
+    try {
+        if (!id) {
+            renderMessage(
+                'js-pokemonContainer', 
+                'ID proporcionado no es válido'
+            )
+
+            throw new Error('ID proporcionado no es válido')
+        }
+        
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        const { ok, status } = response
+        
+        if (!ok) {
+          renderMessage(
             'js-pokemonContainer', 
-            'No se encontro el pokemon que estabas buscando😢.'
-        )
-        return
-    } 
-    const result = await response.json()
-    return result
+            '¡Ups! No se encontró el Pokémon que estabas buscando. 😢'
+          )
+    
+          throw new Error('Pokémon no encontrado (404)')
+        } 
+        
+        return await response.json();
+    } catch (ex) {
+        // TODO: refactorizar, cambiar por alerta.
+        console.error(ex)
+    }
 }
 
 
@@ -135,10 +149,12 @@ const fetchTypeList = async function () {
  * randomPokemon()
  *  
  */
- const randomPokemon = async function () {
-    const id = Math.ceil(Math.random()*TOTAL_AMOUNT_POKEMON)
-    const pokemon = await fetchPokemon(id)
-    renderPokemon(pokemon)
+const randomPokemon = async function () {
+  const id = Math.ceil(Math.random()*TOTAL_POKEMON_COUNT)
+  const pokemon = await fetchPokemon(id)
+  console.log('randomPokemon:', pokemon)
+  if (!pokemon) return
+  renderPokemon(pokemon)
 }
 
 
@@ -151,6 +167,7 @@ const fetchTypeList = async function () {
 const getPokemonList = async function (url) {
   const pokemonList = []
   const { results: pokemonItems } = await fetchPokemonWithLimit(url)
+  console.log('getPokemonList:', pokemonItems)
   
   for (let pokemonItem of pokemonItems) {
     const pokemon = await fetchPokemon(pokemonItem.name)
@@ -244,6 +261,7 @@ const renderPokemonList = async function (url) {
   const pokemonListFragment = document.createDocumentFragment()
   const pokemonListEl = document.querySelector('#js-pokemon-list .grid')
   const pokemonList = await getPokemonList(url)
+  console.log('renderPokemonList:', pokemonList)
 
   if (!pokemonList) return
   
@@ -374,5 +392,6 @@ document.addEventListener('DOMContentLoaded', e => {
 document.addEventListener('DOMContentLoaded', randomPokemon)
 document.addEventListener('click', e => {
   const link = getHrefPaginationButtons(e, '.pagination-nav a')
+  if (!link) return
   renderPokemonList(link)
 })
