@@ -1,7 +1,7 @@
 // browser-sync start --server --files
 const TOTAL_POKEMON_COUNT = 1025
 const URL_POKEMON_LIMIT = 'https://pokeapi.co/api/v2/pokemon?limit=12'
-
+const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2'
 
 /**
  * fetchPokemon()
@@ -49,7 +49,7 @@ const fetchPokemonByID = async function fetchPokemonByID(id) {
             throw new Error('ID proporcionado no es válido')
         }
         
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${id}`)
         const { ok, status } = response
         
         if (!ok) {
@@ -76,7 +76,7 @@ const fetchPokemonByID = async function fetchPokemonByID(id) {
  */
  const fetchType = async function (id) {
     if (!id) return
-    const response = await fetch(`https://pokeapi.co/api/v2/type/${id}`)
+    const response = await fetch(`${POKEAPI_BASE_URL}/type/${id}`)
     const result = await response.json()
     return result
 }
