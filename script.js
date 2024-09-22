@@ -51,7 +51,7 @@ const fetchPokemonByID = async function fetchPokemonByID(id) {
             throw new Error('ID proporcionado no es válido')
         }
         
-        const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${id}`)
+        const response = await fetch(`${CONFIG.BASE_URL}/pokemon/${id}`)
         const { ok, status } = response
         
         if (!ok) {
@@ -72,35 +72,66 @@ const fetchPokemonByID = async function fetchPokemonByID(id) {
 
 
 /**
- * fetchListType()
+ *  @function fetchPokemonListByType
  *  @param {string} id
- *  Devuelve un unico elemento.
+ *  @return {Object}
  */
- const fetchType = async function (id) {
-    if (!id) return
-    const response = await fetch(`${POKEAPI_BASE_URL}/type/${id}`)
-    const result = await response.json()
-    return result
+// TTODO: Validar cuando un tipo no devuelve ningun pokemon, array vacío.
+ const fetchPokemonListByType  = async function fetchPokemonListByType(id) {
+    if (!id) {
+        throw new Error('ID no valido')
+    }
+    
+    try {
+        const response  = await fetch(`${CONFIG.BASE_URL}/type/${id}`)
+        const { ok, status } = response
+
+        if (!ok) {
+            throw new Error(`No se encontraron pokemones para el tipo con ID: ${id}`)
+        }
+
+        return response.json();
+    } catch (ex) {
+        console.error(ex)
+    }
 }
 
+/**
+ * Obtiene el último segmento de la URL, que típicamente es un ID.
+ * 
+ * @function getIdUrl
+ * @param {string} url
+ * @returns {string} 
+ */
+const getIdUrl = function getIdUrl(url) {
+    const id = url?.split('/').slice(-2)[0] ?? ''
+    return id;
+}
 
 /**
- * fetchTypeList()
- * Devuelve una lista de elementos.
+ * @function fetchPokemonTypes
+ * @returns {Array<{type: string, id: string}>} 
  */
-const fetchTypeList = async function () {
-    const NUMBER_OF_TOTAL_TYPES = 18
-    let typeList = []
-    
-    for (let i = 1; i <= NUMBER_OF_TOTAL_TYPES; i++) {
-        const result = await fetchType(i)
-        let pokemonType = {
-            type: result.name,
-            id: result.id
+const fetchPokemonTypes = async function fetchPokemonTypes() {
+    try {
+        const response = await fetch(`${CONFIG.BASE_URL}/type`)
+        const { ok, status } = response
+
+        if (!ok) {
+            throw new Error(`Error ${status}: No se pudieron obtener los tipos de Pokémon. Intenta nuevamente más tarde.`)
         }
-        typeList.push(pokemonType)
+        
+        const { results: types } = await response.json()
+        
+        return types.map(({ name, url }) => {
+            return {
+                type: name,
+                id: getIdUrl(url),
+            };
+        })
+    } catch (ex) {
+        console.log(ex)   
     }
-    return typeList
 }
 
 
@@ -153,9 +184,9 @@ const fetchTypeList = async function () {
  *  
  */
 const randomPokemon = async function () {
-  const id = Math.ceil(Math.random()*TOTAL_POKEMON_COUNT)
+  const id = Math.ceil(Math.random()*CONFIG.TOTAL_POKEMON_COUNT)
   const pokemon = await fetchPokemonByID(id)
-  console.log('randomPokemon:', pokemon)
+//   console.log('randomPokemon:', pokemon)
   if (!pokemon) return
   renderPokemon(pokemon)
 }
@@ -170,7 +201,7 @@ const randomPokemon = async function () {
 const getPokemonList = async function (url) {
   const pokemonList = []
   const { results: pokemonItems } = await fetchPokemonWithLimit(url)
-  console.log('getPokemonList:', pokemonItems)
+//   console.log('getPokemonList:', pokemonItems)
   
   for (let pokemonItem of pokemonItems) {
     const pokemon = await fetchPokemonByID(pokemonItem.name)
@@ -228,7 +259,7 @@ const getSelect  = function () {
     selectEl.addEventListener('change', async function (e) {
         e.preventDefault()
         const id = getOptionFromSelect(e.target)
-        const pokemonListByType = await fetchType(id)
+        const pokemonListByType = await fetchPokemonListByType(id)
         renderPokemonListByType(pokemonListByType)
     })
 
@@ -264,7 +295,7 @@ const renderPokemonList = async function (url) {
   const pokemonListFragment = document.createDocumentFragment()
   const pokemonListEl = document.querySelector('#js-pokemon-list .grid')
   const pokemonList = await getPokemonList(url)
-  console.log('renderPokemonList:', pokemonList)
+//   console.log('renderPokemonList:', pokemonList)
 
   if (!pokemonList) return
   
@@ -356,7 +387,8 @@ const renderPokemonListByType = async function ({ pokemon: pokemonList }) {
 const renderOptionElToSelect = async function () {
     let optionListFragment = document.createDocumentFragment()
     let selectEl = document.getElementById('js-select')
-    let typeList = await fetchTypeList()
+    let typeList = await fetchPokemonTypes()
+
     if (!selectEl) return
     if (!typeList.length > 0 ) return
     
@@ -390,7 +422,7 @@ getDataForm()
 getSelect()
 
 document.addEventListener('DOMContentLoaded', e => {
-  renderPokemonList(URL_POKEMON_LIMIT)
+  renderPokemonList(CONFIG.URL_POKEMON_LIMIT)
 })
 document.addEventListener('DOMContentLoaded', randomPokemon)
 document.addEventListener('click', e => {
