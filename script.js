@@ -1,3 +1,4 @@
+// browser-sync start --server --files
 const TOTAL_POKEMON_COUNT = 1025
 const URL_POKEMON_LIMIT = 'https://pokeapi.co/api/v2/pokemon?limit=12'
 
@@ -34,10 +35,10 @@ const createPagination = function (id, previous, next) {
 /**
  * fetchPokemon()
  *
- * @param {Number} id
- * 
+ * @param {Number|String} id
+ * @returns {Object}
  */
-const fetchPokemon = async function fetchPokemon(id) {
+const fetchPokemonByID = async function fetchPokemonByID(id) {
     try {
         if (!id) {
             renderMessage(
@@ -151,7 +152,7 @@ const fetchTypeList = async function () {
  */
 const randomPokemon = async function () {
   const id = Math.ceil(Math.random()*TOTAL_POKEMON_COUNT)
-  const pokemon = await fetchPokemon(id)
+  const pokemon = await fetchPokemonByID(id)
   console.log('randomPokemon:', pokemon)
   if (!pokemon) return
   renderPokemon(pokemon)
@@ -170,7 +171,7 @@ const getPokemonList = async function (url) {
   console.log('getPokemonList:', pokemonItems)
   
   for (let pokemonItem of pokemonItems) {
-    const pokemon = await fetchPokemon(pokemonItem.name)
+    const pokemon = await fetchPokemonByID(pokemonItem.name)
     pokemonList.push(pokemon)
   }
   return pokemonList
@@ -191,7 +192,7 @@ const getPokemonList = async function (url) {
         const idOrName = document.getElementById('js-inputSearch').value.trim()
         if (!idOrName) return
 
-        pokemon = await fetchPokemon(idOrName.toLowerCase())
+        pokemon = await fetchPokemonByID(idOrName.toLowerCase())
         if (!pokemon) {
             formEl.reset()
             return
@@ -335,7 +336,7 @@ const renderPokemonListByType = async function ({ pokemon: pokemonList }) {
         const articleEl = document.createElement("article")
         articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
         
-        let {id, name, sprites, types} = await fetchPokemon(pokemon.pokemon.name)
+        let {id, name, sprites, types} = await fetchPokemonByID(pokemon.pokemon.name)
         const pokemonCard = await createTemplateCard({id, imageSprites: sprites, name, types})
         
         articleEl.innerHTML = pokemonCard
