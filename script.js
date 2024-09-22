@@ -1,7 +1,9 @@
 // browser-sync start --server --files
-const TOTAL_POKEMON_COUNT = 1025
-const URL_POKEMON_LIMIT = 'https://pokeapi.co/api/v2/pokemon?limit=12'
-const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2'
+const CONFIG = {
+    TOTAL_POKEMON_COUNT: 1025,
+    URL_POKEMON_LIMIT: 'https://pokeapi.co/api/v2/pokemon?limit=12',
+    BASE_URL: 'https://pokeapi.co/api/v2',
+}
 
 /**
  * fetchPokemon()
