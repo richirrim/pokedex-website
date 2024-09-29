@@ -1,24 +1,47 @@
 // browser-sync start --server --files
 const CONFIG = {
     TOTAL_POKEMON_COUNT: 1025,
-    URL_POKEMON_LIMIT: 'https://pokeapi.co/api/v2/pokemon?limit=12',
+    // Si no especificas un límite, devolverá 20 por defecto al pasar null.
+    POKEMON_RESULTS_LIMIT: 4,
     BASE_URL: 'https://pokeapi.co/api/v2',
+
+    URL_QUERY_LIMIT: function (urlNext = null) {
+        if (!urlNext) {
+            return `${this.BASE_URL}/pokemon?limit=${this.POKEMON_RESULTS_LIMIT}&offset=0`;
+        }
+
+        return urlNext;
+    },
 }
 
 /**
- * fetchPokemon()
- * Obtiene una lista de elementos
- * con un limite.
+ * @function fetchBasicPokemonList
+ * @description - Obtiene una lista básica que incluye el nombre y 
+ * la URL de cada Pokémon. 
+ * @param {string} url
+ * @returns {Array<Object>}
  */
-const fetchPokemonWithLimit = async function (url) {
+// TODO: refactor, funcion que hace mas de una cosa.
+const fetchBasicPokemonList = async function fetchBasicPokemonList(url) {
   try {
-    const response = await fetch(url)
-    if (!response.ok) throw { status: response.status, statusText: response.statusText }
+    const response = await fetch(CONFIG.URL_QUERY_LIMIT(url))
+    const { ok, status } = response
+
+    if (!ok) {
+        throw { 
+            status: response.status, 
+            statusText: response.statusText,
+        }
+    }
+    
     const json = await response.json()
-    createPagination('js-pagination', json.previous, json.next) 
+    const { previous, next } = json
+
+    createPagination('js-pagination', previous, next) 
+    
     return json
   } catch (err) {
-    console.log(err)
+    console.error(err)
     const message = err.statusText || 'Ocurrió un error'
     renderMessage('js-pokemon-list', message)
   }
@@ -30,12 +53,13 @@ const createPagination = function (id, previous, next) {
 
   const prevLinkEl = previous ? `<a class="button  pagination-nav__prev  icon-left-arrow" href="${previous}">Prev</a>` : ''
   const nextLinkEl = next ? `<a class="button  pagination-nav__next  icon-right-arrow" href="${next}">Next</a>` : ''
+  
   paginationNavEl.innerHTML = `${prevLinkEl} ${nextLinkEl}`
 }
 
 
 /**
- * fetchPokemon()
+ * fetchPokemonByID()
  *
  * @param {Number|String} id
  * @returns {Object}
@@ -94,7 +118,7 @@ const fetchPokemonByID = async function fetchPokemonByID(id) {
     } catch (ex) {
         console.error(ex)
     }
-}
+}  
 
 /**
  * Obtiene el último segmento de la URL, que típicamente es un ID.
@@ -193,21 +217,25 @@ const randomPokemon = async function () {
 
 
 /**
- * getPokemonList()
- *
- * Obtiene la data de cada pokemon
- * devuelto por la función getPokemonLimit()
+ * @function fetchDetailedPokemonList
+ * @description - Obtiene una lista detallada de cada Pokémon, incluyendo 
+ * información adicional como tipo, habilidades, etc.
+ * @param {string} url - La URL de la API que se utiliza para obtener la lista inicial 
+ * de nombres y URLs de Pokémon.
+ * @returns {Array<Object>}
  */
-const getPokemonList = async function (url) {
+const fetchDetailedPokemonList = async function fetchDetailedPokemonList(url) {
   const pokemonList = []
-  const { results: pokemonItems } = await fetchPokemonWithLimit(url)
-//   console.log('getPokemonList:', pokemonItems)
+  const { results: pokemonItems } = await fetchBasicPokemonList(url)
+  console.log('fetchBasicPokemonList|', pokemonItems)
   
   for (let pokemonItem of pokemonItems) {
     const pokemon = await fetchPokemonByID(pokemonItem.name)
     pokemonList.push(pokemon)
   }
-  return pokemonList
+
+  console.log(`fetchDetailedPokemonList |`, pokemonList)
+  return pokemonList;
 }
 
 
@@ -288,13 +316,11 @@ const getSelect  = function () {
 /**
  * renderPokemonList()
  *  
- * Pinta cada compoonente card con info del 
- * pokemon en el layout.
  */
 const renderPokemonList = async function (url) {
   const pokemonListFragment = document.createDocumentFragment()
   const pokemonListEl = document.querySelector('#js-pokemon-list .grid')
-  const pokemonList = await getPokemonList(url)
+  const pokemonList = await fetchDetailedPokemonList(url)
 //   console.log('renderPokemonList:', pokemonList)
 
   if (!pokemonList) return
@@ -409,11 +435,15 @@ const renderOptionElToSelect = async function () {
  * @param {String} classOfElement
  */
 const getHrefPaginationButtons = function (e, classOfElement) {
-  if (e.target.matches(classOfElement)) {
+    
+    if (!e.target.matches(classOfElement)) {
+        return;
+    }
+    
     e.preventDefault()
     const link = e.target.getAttribute('href')
+    
     return link
-  }
 }
 
 renderOptionElToSelect()
@@ -422,11 +452,15 @@ getDataForm()
 getSelect()
 
 document.addEventListener('DOMContentLoaded', e => {
-  renderPokemonList(CONFIG.URL_POKEMON_LIMIT)
+    renderPokemonList()
 })
 document.addEventListener('DOMContentLoaded', randomPokemon)
 document.addEventListener('click', e => {
-  const link = getHrefPaginationButtons(e, '.pagination-nav a')
-  if (!link) return
-  renderPokemonList(link)
+    const link = getHrefPaginationButtons(e, '.pagination-nav a')
+    
+    if (!link) {
+        return; 
+    }
+
+    renderPokemonList(link)
 })
