@@ -210,7 +210,6 @@ const fetchPokemonTypes = async function fetchPokemonTypes() {
 const randomPokemon = async function () {
   const id = Math.ceil(Math.random()*CONFIG.TOTAL_POKEMON_COUNT)
   const pokemon = await fetchPokemonByID(id)
-//   console.log('randomPokemon:', pokemon)
   if (!pokemon) return
   renderPokemon(pokemon)
 }
@@ -227,14 +226,12 @@ const randomPokemon = async function () {
 const fetchDetailedPokemonList = async function fetchDetailedPokemonList(url) {
   const pokemonList = []
   const { results: pokemonItems } = await fetchBasicPokemonList(url)
-  console.log('fetchBasicPokemonList|', pokemonItems)
   
   for (let pokemonItem of pokemonItems) {
     const pokemon = await fetchPokemonByID(pokemonItem.name)
     pokemonList.push(pokemon)
   }
 
-  console.log(`fetchDetailedPokemonList |`, pokemonList)
   return pokemonList;
 }
 
