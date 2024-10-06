@@ -21,41 +21,78 @@ const CONFIG = {
  * @param {string} url
  * @returns {Array<Object>}
  */
-// TODO: refactor, funcion que hace mas de una cosa.
-const fetchBasicPokemonList = async function fetchBasicPokemonList(url) {
-  try {
-    const response = await fetch(CONFIG.URL_QUERY_LIMIT(url))
-    const { ok, status } = response
+const fetchBasicPokemonList = async function fetchBasicPokemonList(urlNextPage) {
+    try {
+        const response = await fetch(CONFIG.URL_QUERY_LIMIT(urlNextPage))
+        const { ok, status } = response
 
-    if (!ok) {
-        throw { 
-            status: response.status, 
-            statusText: response.statusText,
+        if (!ok) {
+            throw { 
+                status: response.status, 
+                statusText: response.statusText,
+            }
         }
-    }
-    
-    const json = await response.json()
-    const { previous, next } = json
 
-    createPagination('js-pagination', previous, next) 
-    
-    return json
-  } catch (err) {
-    console.error(err)
-    const message = err.statusText || 'Ocurrió un error'
-    renderMessage('js-pokemon-list', message)
-  }
+        return response.json();
+    } catch (err) {
+        console.error(err)
+        const message = err.statusText || 'Ocurrió un error'
+        renderMessage('js-pokemon-list', message)
+    }
 } 
 
-const createPagination = function (id, previous, next) {
-  const paginationNavEl = document.getElementById(id) 
-  if (!paginationNavEl) return
-
-  const prevLinkEl = previous ? `<a class="button  pagination-nav__prev  icon-left-arrow" href="${previous}">Prev</a>` : ''
-  const nextLinkEl = next ? `<a class="button  pagination-nav__next  icon-right-arrow" href="${next}">Next</a>` : ''
+/**
+ * @function fetchDetailedPokemonList
+ * @description - Obtiene una lista detallada de cada Pokémon, incluyendo 
+ * información adicional como tipo, habilidades, etc.
+ * @param {string} url - La URL de la API que se utiliza para obtener la lista inicial 
+ * de nombres y URLs de Pokémon.
+ * @returns {Array<Object>}
+ */
+const fetchDetailedPokemonList = async function fetchDetailedPokemonList(list) {
+    const pokemonList = []
+    
+    for (pokemonBasicInfo of list) {
+      const pokemonDatailedInfo = await fetchPokemonByID(pokemonBasicInfo.name)
+      pokemonList.push(pokemonDatailedInfo)
+    }
   
-  paginationNavEl.innerHTML = `${prevLinkEl} ${nextLinkEl}`
+    return pokemonList;
 }
+
+const createPaginationLinks = function (previousUrl, nextUrl) {
+    const prevLinkEl = previousUrl 
+        ? `<a class="button pagination-nav__prev icon-left-arrow" href="${previousUrl}">Prev</a>` 
+        : '';
+    const nextLinkEl = nextUrl 
+        ? `<a class="button pagination-nav__next icon-right-arrow" href="${nextUrl}">Next</a>` 
+        : '';
+    
+        return `${prevLinkEl} ${nextLinkEl}`;
+};
+
+const createPagination = function createPagination(paginationContainerId, previousUrl, nextUrl) {
+    const paginationContainerEl = document.getElementById(paginationContainerId)
+
+    if (!paginationContainerEl) { 
+        return; 
+    }
+    
+    const paginationLinks = createPaginationLinks(previousUrl, nextUrl);
+    paginationContainerEl.innerHTML = paginationLinks
+}
+
+const renderPagination = function renderPagination(paginationContainerId, previousUrl, nextUrl) {
+    const paginationContainerEl = document.getElementById(paginationContainerId)
+
+    if (!paginationContainerEl) { 
+        return; 
+    }
+    
+    const paginationLinks = createPaginationLinks(previousUrl, nextUrl)
+    paginationContainerEl.innerHTML = paginationLinks
+}
+
 
 
 /**
@@ -175,7 +212,8 @@ const fetchPokemonTypes = async function fetchPokemonTypes() {
         other: {dream_world: {front_default: imageSVG}}
     }, 
     name, 
-    types: [firstType, secondType]}) {
+    types: [firstType, secondType]
+}) {
      // Apartir del 650 no hay imagenes svg del pokemon.
      // Por ende, devuelve svg si existe y, si no, la version 'png'.
 
@@ -213,28 +251,6 @@ const randomPokemon = async function () {
   if (!pokemon) return
   renderPokemon(pokemon)
 }
-
-
-/**
- * @function fetchDetailedPokemonList
- * @description - Obtiene una lista detallada de cada Pokémon, incluyendo 
- * información adicional como tipo, habilidades, etc.
- * @param {string} url - La URL de la API que se utiliza para obtener la lista inicial 
- * de nombres y URLs de Pokémon.
- * @returns {Array<Object>}
- */
-const fetchDetailedPokemonList = async function fetchDetailedPokemonList(url) {
-  const pokemonList = []
-  const { results: pokemonItems } = await fetchBasicPokemonList(url)
-  
-  for (let pokemonItem of pokemonItems) {
-    const pokemon = await fetchPokemonByID(pokemonItem.name)
-    pokemonList.push(pokemon)
-  }
-
-  return pokemonList;
-}
-
 
 /**
  * getDataForm()
@@ -314,31 +330,31 @@ const getSelect  = function () {
  * renderPokemonList()
  *  
  */
-const renderPokemonList = async function (url) {
-  const pokemonListFragment = document.createDocumentFragment()
-  const pokemonListEl = document.querySelector('#js-pokemon-list .grid')
-  const pokemonList = await fetchDetailedPokemonList(url)
-//   console.log('renderPokemonList:', pokemonList)
+const renderPokemonList = async function renderPokemonList(list) {
+    const pokemonListFragment = document.createDocumentFragment()
+    const pokemonListEl = document.querySelector('#js-pokemon-list .grid')    
+    
+    if (!list) return
+    
+    for (let pokemon of list) {
+        const { id, sprites, name, types } = pokemon
+        const articleEl = document.createElement('article')
+        articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
 
-  if (!pokemonList) return
-  
-  for (let pokemon of pokemonList) {
-    const articleEl = document.createElement("article")
-    articleEl.setAttribute('class', 'grid__item  card  card-pokemon')
+        const cardPokemon = createTemplateCard({
+            id,
+            imageSprites: pokemon.sprites,
+            name,
+            types
+        })
 
-    const cardPokemon = createTemplateCard({
-      id: pokemon.id,
-      imageSprites: pokemon.sprites ,
-      name: pokemon.name,
-      types: pokemon.types
-    })
+        articleEl.innerHTML = cardPokemon
+        pokemonListFragment.append(articleEl)
+    }
 
-    articleEl.innerHTML = cardPokemon
-    pokemonListFragment.append(articleEl)
+    pokemonListEl.innerHTML = ''
+    pokemonListEl.append(pokemonListFragment)
   }
-  pokemonListEl.innerHTML = ''
-  pokemonListEl.append(pokemonListFragment)
-}
 
 
 /**
@@ -448,16 +464,24 @@ renderRandomPokemon()
 getDataForm()
 getSelect()
 
-document.addEventListener('DOMContentLoaded', e => {
-    renderPokemonList()
+document.addEventListener('DOMContentLoaded', async (e) => {
+    const response = await fetchBasicPokemonList()
+    const { results: pokemonList, previous, next } = response
+    renderPagination('js-pagination', previous, next) 
+    const pokemonListDetailed = await fetchDetailedPokemonList(pokemonList)
+    renderPokemonList(pokemonListDetailed)
 })
 document.addEventListener('DOMContentLoaded', randomPokemon)
-document.addEventListener('click', e => {
+document.addEventListener('click', async e => {
     const link = getHrefPaginationButtons(e, '.pagination-nav a')
     
     if (!link) {
         return; 
     }
 
-    renderPokemonList(link)
+    const response = await fetchBasicPokemonList(link)
+    const { results: pokemonList, previous, next } = response
+    renderPagination('js-pagination', previous, next) 
+    const pokemonListDetailed = await fetchDetailedPokemonList(pokemonList)
+    renderPokemonList(pokemonListDetailed)
 })
